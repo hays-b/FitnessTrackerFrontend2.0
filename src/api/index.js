@@ -7,10 +7,8 @@ export const registerUser = async (username, password) => {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
-      user: {
         username,
         password,
-      },
     }),
   });
   const data = await response.json();
@@ -24,10 +22,8 @@ export const loginUser = async (username, password) => {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
-      user: {
         username,
         password,
-      },
     }),
   });
   const data = await response.json();
@@ -42,10 +38,40 @@ export const getAllRoutines = async () => {
   return data;
 };
 
-export const getUserRoutines = async (username) => {
+export const createRoutine = async (token, name, goal, isPublic) => {
+  const response = await fetch(`${baseURL}/routines`, {
+    method: "POST",
+    "Authorization": `Bearer ${token}`,
+    body: JSON.stringify({
+      name,
+      goal,
+      isPublic
+    })
+  })
+  const data = await response.json();
+  return data;
+}
+
+export const updateRoutine = async (routineId, token, name, goal) => {
+  const response = await fetch(`${baseURL}/routines/${routineId}`, {
+    method: "PATCH",
+    "Authorization": `Bearer ${token}`,
+    body: JSON.stringify({
+      name,
+      goal
+    })
+  })
+  const data = await response.json();
+  return data;
+}
+
+
+export const getUserRoutines = async (username, token) => {
   const response = await fetch(`${baseURL}/users/${username}/routines`, {
     method: "GET",
+    "Authorization": `Bearer ${token}`
   });
   const data = await response.json();
+  // console.log(data)
   return data;
 };

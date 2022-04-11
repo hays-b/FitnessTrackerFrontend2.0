@@ -1,14 +1,30 @@
+import React, { useState, useEffect } from "react";
 import { Switch, Route } from "react-router-dom";
-import { Login, Home } from "./components";
+import { Login, Home, Register } from "./components";
+
+
 
 function App() {
+  const [token, setToken] = useState("");
+
+  useEffect(() => {
+    const localStorageToken = localStorage.getItem("token");
+    if (localStorageToken) {
+      setToken(localStorageToken);
+      console.log("currentToken from localStorage", token);
+    }
+  }, [token]);
+
   return (
     <Switch>
       <Route exact path="/">
         <Home />
       </Route>
       <Route path="/Login">
-        <Login />
+        <Login setToken={setToken}/>
+      </Route>
+      <Route path="/Register">
+        <Register setToken={setToken} token={token} />
       </Route>
     </Switch>
   );
