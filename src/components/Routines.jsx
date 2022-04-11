@@ -1,9 +1,30 @@
-import React from "react";
-import { getAllRoutines } from 
+import React, { useState, useEffect } from "react";
+import { getAllRoutines } from "../api"
 
 const Routines = () => {
-    async function getRoutine
-  return <div>this is all routines</div>;
+const [routines, setRoutines] = useState([]);
+
+    useEffect(() => {
+      const displayRoutines = async () => {
+        const data = await getAllRoutines();
+        setRoutines(data);
+      };
+      displayRoutines();
+    }, []);
+
+  return (
+      <div>
+  <div id="routineList">
+        {routines.map((routine, idx) => (
+          <div key={routine.id}>
+            <h3>{routine.name}</h3>
+            <div>{routine.goal}</div>
+            <div>{routine.creatorName}</div>
+            </div>
+  ))}
+  </div>
+  </div>
+  )
 };
 
 export default Routines;
