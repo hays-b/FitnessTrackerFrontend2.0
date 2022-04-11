@@ -1,30 +1,33 @@
 import React, { useState, useEffect } from "react";
-import { getAllRoutines } from "../api"
+import { getAllRoutines } from "../api";
 
 const Routines = () => {
-const [routines, setRoutines] = useState([]);
+  const [routines, setRoutines] = useState([]);
 
-    useEffect(() => {
-      const displayRoutines = async () => {
-        const data = await getAllRoutines();
-        setRoutines(data);
-      };
-      displayRoutines();
-    }, []);
+  useEffect(() => {
+    const displayRoutines = async () => {
+      const data = await getAllRoutines();
+      setRoutines(data);
+    };
+    displayRoutines();
+  }, []);
 
   return (
-      <div>
-  <div id="routineList">
-        {routines.map((routine, idx) => (
-          <div key={routine.id}>
-            <h3>{routine.name}</h3>
-            <div>{routine.goal}</div>
-            <div>{routine.creatorName}</div>
-            </div>
-  ))}
-  </div>
-  </div>
-  )
+    <div id="routineList">
+      {routines.map((routine, idx) => (
+        <div key={routine.id}>
+          <h3>{routine.name}</h3>
+          <p>{routine.goal}</p>
+          <p>{routine.creatorName}</p>
+        </div>
+      ))}
+      {routines.map((activity, index) => (
+        <div key={activity.id}>
+          <p>[activity.activities]</p>
+        </div>
+      ))}
+    </div>
+  );
 };
 
 export default Routines;
