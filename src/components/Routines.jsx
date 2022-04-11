@@ -23,7 +23,7 @@ const Routines = () => {
       ))}
       {routines.map((activity, index) => (
         <div key={activity.id}>
-          <p>[activity.activities]</p>
+          <p>{activity.activities}</p>
         </div>
       ))}
     </div>
