@@ -65,6 +65,15 @@ export const updateRoutine = async (routineId, token, name, goal) => {
   return data;
 }
 
+export const deleteRoutine = async (routineId, token) => {
+  const response = await fetch(`${baseURL}/routines/${routineId}`, {
+    method: "DELETE",
+    "Authorization": `Bearer ${token}`
+  })
+  const data = await response.json();
+  return data;
+}
+
 
 export const getUserRoutines = async (username, token) => {
   const response = await fetch(`${baseURL}/users/${username}/routines`, {

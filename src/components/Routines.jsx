@@ -1,6 +1,8 @@
 import React from "react";
+import { getAllRoutines } from 
 
 const Routines = () => {
+    async function getRoutine
   return <div>this is all routines</div>;
 };
 
