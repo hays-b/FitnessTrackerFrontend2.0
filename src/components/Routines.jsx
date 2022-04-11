@@ -1,11 +1,7 @@
-import React from 'react';
+import React from "react";
 
 const Routines = () => {
-    return (
-        <div>
-            
-        </div>
-    );
+  return <div>this is all routines</div>;
 };
 
 export default Routines;
