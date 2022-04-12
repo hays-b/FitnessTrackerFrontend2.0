@@ -18,7 +18,6 @@ function App() {
     const localStorageToken = localStorage.getItem("token");
     if (localStorageToken) {
       setToken(localStorageToken);
-      console.log("currentToken from localStorage", token);
     }
   }, [token]);
 
@@ -37,7 +36,7 @@ function App() {
 
   return (
     <>
-      <Navbar token={token} />
+      <Navbar token={token} user={user} />
       <Switch>
         <Route exact path="/">
           <Home />

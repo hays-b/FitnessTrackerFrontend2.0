@@ -1,12 +1,12 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-const Navbar = ({ token }) => {
+const Navbar = ({ token, user }) => {
   return (
     <div className="navBar">
       <div className="title">
         Fitness Tracker
-        {token ? <> Logged in</> : <> Not Logged in</>}
+        {token ? <> Logged in as {user.username}</> : <> Not Logged in</>}
       </div>
       <Link to={"/"} className="nav_item">
         Home

@@ -31,7 +31,7 @@ export const loginUser = async (username, password) => {
 };
 
 export const getMe = async (token) => {
-  const response = await fetch(`{${baseURL}}/users/me`, {
+  const response = await fetch(`${baseURL}/users/me`, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
@@ -108,7 +108,7 @@ export const getPublicRoutinesByActivity = async (activityId) => {
   return data;
 };
 
-export const getAllRoutines = async () => {
+export const getPublicRoutines = async () => {
   const response = await fetch(`${baseURL}/routines`, {
     method: "GET",
     headers: {
