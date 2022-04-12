@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Switch, Route } from "react-router-dom";
-import { Login, Home, Register } from "./components";
+import { Login, Home, Register, Routines } from "./components";
 
 
 
@@ -19,6 +19,9 @@ function App() {
     <Switch>
       <Route exact path="/">
         <Home />
+      </Route>
+      <Route exact path="/routines">
+        <Routines />
       </Route>
       <Route path="/Login">
         <Login setToken={setToken}/>
