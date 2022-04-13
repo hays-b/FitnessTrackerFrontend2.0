@@ -11,10 +11,19 @@ const Navbar = ({ token, user }) => {
       <Link to={"/"} className="nav_item">
         Home
       </Link>
+      <Link to={"/Routines"} className="nav_item">
+        Routines
+      </Link>
+      <Link to={"/Activity"} className="nav_item">
+        Activity
+      </Link>
       {token ? (
         <>
           <Link to={"/myRoutines"} className="nav_item">
             My Routines
+          </Link>
+          <Link to={"/logout"} className="nav_item">
+            Logout
           </Link>
         </>
       ) : (
@@ -27,12 +36,6 @@ const Navbar = ({ token, user }) => {
           </Link>
         </>
       )}
-      <Link to={"/Routines"} className="nav_item">
-        Routines
-      </Link>
-      <Link to={"/Activity"} className="nav_item">
-        Activity
-      </Link>
     </div>
   );
 };

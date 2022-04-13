@@ -3,7 +3,7 @@ import { createRoutine, getMyRoutines } from "../api";
 import { useState, useEffect } from "react";
 
 const MyRoutines = ({ token, user }) => {
-  const [routines, setRoutines] = useState([]);
+  const [myRoutines, setMyRoutines] = useState([]);
   const [formState, setFormState] = useState({
     name: "",
     goal: "",
@@ -11,80 +11,88 @@ const MyRoutines = ({ token, user }) => {
   });
 
   useEffect(() => {
-    const displayRoutines = async () => {
-      const data = await getMyRoutines(user.username, token);
-      setRoutines(data);
-    };
-    displayRoutines();
-  }, [token, user.username]);
+    // check for a username before making an ajax call (avoids unnecessary call)
+    if (user.username) {
+      const displayMyRoutines = async () => {
+        const data = await getMyRoutines(user.username, token);
+        setMyRoutines(data);
+      };
+      displayMyRoutines();
+    }
+  }, [user, token]);
 
   return (
     <>
-      <div>
-        <form
-          onSubmit={async (event) => {
-            event.preventDefault();
-            const result = await createRoutine(
-              token,
-              formState.name,
-              formState.goal,
-              formState.isPublic
-            );
-            setRoutines([...routines, result]);
-            console.log("I have no idea what this returns: ", result);
-          }}
-        >
-          <input
-            type="text"
-            placeholder="Name"
-            value={formState.name}
-            onChange={(event) =>
-              setFormState({ ...formState, name: event.target.value })
-            }
-            required
-          />
-          <input
-            type="text"
-            placeholder="goal"
-            value={formState.goal}
-            onChange={(event) =>
-              setFormState({ ...formState, goal: event.target.value })
-            }
-            required
-          />
-          <input
-            type="checkbox"
-            id="isPublic"
-            value={formState.isPublic}
-            onChange={() =>
-              setFormState({ ...formState, isPublic: !formState.isPublic })
-            }
-          />
-          <label htmlFor="isPublic">Is this a public post?</label>
-          <button type="submit">Post</button>
-        </form>
-      </div>
-      <div id="routineList">
-        {routines.map((routine, idx) => (
-          <div key={idx + "routines"}>
-            <h1>Routine: {routine.name}</h1>
-            <h2>Goal: {routine.goal}</h2>
-            <h3>Activities:</h3>
-            {/* <div id="activityList">
-              {routine.activities.map((activity, idx) => (
-                <div key={activity.id}>
-                  <h4>
-                    Step {idx + 1}: {activity.name}{" "}
-                  </h4>
-                  <p>Description: {activity.description}</p>
-                  <p>Count: {activity.count}</p>
-                  <p>Duration: {activity.duration}</p>
+      <form
+        onSubmit={async (event) => {
+          event.preventDefault();
+          const result = await createRoutine(
+            token,
+            formState.name,
+            formState.goal,
+            formState.isPublic
+          );
+          setMyRoutines([...myRoutines, result]);
+          console.log("I have no idea what this returns: ", result);
+        }}
+      >
+        <input
+          type="text"
+          placeholder="Name"
+          value={formState.name}
+          onChange={(event) =>
+            setFormState({ ...formState, name: event.target.value })
+          }
+          required
+        />
+        <input
+          type="text"
+          placeholder="goal"
+          value={formState.goal}
+          onChange={(event) =>
+            setFormState({ ...formState, goal: event.target.value })
+          }
+          required
+        />
+        <input
+          type="checkbox"
+          id="isPublic"
+          value={formState.isPublic}
+          onChange={() =>
+            setFormState({ ...formState, isPublic: !formState.isPublic })
+          }
+        />
+        <label htmlFor="isPublic">Is this a public post?</label>
+        <button type="submit">Post</button>
+      </form>
+      {/* if there are myRoutines to map through, display them */}
+      {myRoutines.length ? (
+        <div id="routineList">
+          <h1>Your Routines</h1>
+          {myRoutines.map((routine, idx) => (
+            <div key={"myRoutines" + routine.id}>
+              <h1>Routine: {routine.name}</h1>
+              <h2>Goal: {routine.goal}</h2>
+              <h3>Activities:</h3>
+              {/* if the routine has activities, map and display them too */}
+              {routine.activities ? (
+                <div id="activityList">
+                  {routine.activities.map((activity, idx) => (
+                    <div key={activity.id}>
+                      <h4>
+                        Step {idx + 1}: {activity.name}{" "}
+                      </h4>
+                      <p>Description: {activity.description}</p>
+                      <p>Count: {activity.count}</p>
+                      <p>Duration: {activity.duration}</p>
+                    </div>
+                  ))}
                 </div>
-              ))}
-            </div> */}
-          </div>
-        ))}
-      </div>
+              ) : null}
+            </div>
+          ))}
+        </div>
+      ) : null}
     </>
   );
 };

@@ -5,6 +5,7 @@ import {
   Login,
   Home,
   Register,
+  Logout,
   Routines,
   MyRoutines,
   Navbar,
@@ -47,10 +48,13 @@ function App() {
         <Route exact path="/myRoutines">
           <MyRoutines token={token} user={user} />
         </Route>
-        <Route path="/Login">
+        <Route exact path="/Logout">
+          <Logout setToken={setToken} setUser={setUser} />
+        </Route>
+        <Route exact path="/Login">
           <Login setToken={setToken} />
         </Route>
-        <Route path="/Register">
+        <Route exact path="/Register">
           <Register setToken={setToken} token={token} />
         </Route>
       </Switch>
