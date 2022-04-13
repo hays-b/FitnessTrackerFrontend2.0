@@ -8,6 +8,7 @@ import {
   Logout,
   Routines,
   MyRoutines,
+  Activities,
   Navbar,
 } from "./components";
 
@@ -44,6 +45,9 @@ function App() {
         </Route>
         <Route exact path="/routines">
           <Routines />
+        </Route>
+        <Route exact path="/activities">
+          <Activities />
         </Route>
         <Route exact path="/myRoutines">
           <MyRoutines token={token} user={user} />

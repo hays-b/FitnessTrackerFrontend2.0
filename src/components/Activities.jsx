@@ -1,7 +1,30 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import { getAllActivities } from "../api";
 
 const Activities = () => {
-  return <div>This is activities</div>;
+  const [activities, setActivities] = useState([]);
+
+  useEffect(() => {
+    const displayActivities = async () => {
+      const data = await getAllActivities();
+      setActivities(data);
+    };
+    displayActivities();
+  }, []);
+
+  return (
+    <div id="activityList">
+      <h1>Public Activities</h1>
+      {activities.map((activity, idx) => (
+        <div key={"activity" + activity.id}>
+          <h1>Activity: {activity.name}</h1>
+          <h4>Description: {activity.description}</h4>
+          <h2>Count: {activity.count}</h2>
+          <h3>Duration: {activity.duration}</h3>
+        </div>
+      ))}
+    </div>
+  );
 };
 
 export default Activities;

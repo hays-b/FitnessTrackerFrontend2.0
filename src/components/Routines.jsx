@@ -14,6 +14,7 @@ const Routines = () => {
 
   return (
     <div id="routineList">
+      <h1>Public Routines</h1>
       {routines.map((routine, idx) => (
         <div key={routine.id}>
           <h1>Routine: {routine.name}</h1>

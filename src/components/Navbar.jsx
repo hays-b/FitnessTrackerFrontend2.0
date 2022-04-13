@@ -14,8 +14,8 @@ const Navbar = ({ token, user }) => {
       <Link to={"/Routines"} className="nav_item">
         Routines
       </Link>
-      <Link to={"/Activity"} className="nav_item">
-        Activity
+      <Link to={"/Activities"} className="nav_item">
+        Activities
       </Link>
       {token ? (
         <>
