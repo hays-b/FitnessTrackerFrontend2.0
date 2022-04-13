@@ -3,8 +3,8 @@ import { updateRoutine, getAllActivities, addActivityToRoutine } from "../api";
 
 const Update = ({ token, routine, myRoutines, setMyRoutines }) => {
   const [updateState, setUpdateState] = useState({
-    id: "",
-    goal: "",
+    name: routine.name,
+    goal: routine.goal,
     isPublic: false,
   });
   const [activityToAdd, setActivityToAdd] = useState({
@@ -36,8 +36,10 @@ const Update = ({ token, routine, myRoutines, setMyRoutines }) => {
             updateState.goal,
             updateState.isPublic
           );
+          if (activityToAdd.id) {
           const activityResult = await addActivityToRoutine(routine.id, activityToAdd.id, activityToAdd.count, activityToAdd.duration, token)
           console.log(activityResult)
+          } 
 
           if (result.error) {
             console.log("error", result);
