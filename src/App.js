@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { Switch, Route } from "react-router-dom";
-import { getMe } from "./api";
+import React from "react";
+import { Routes, Route, Link } from 'react-router-dom'
 import {
   Login,
   Home,
@@ -9,60 +8,42 @@ import {
   Routines,
   MyRoutines,
   Activities,
-  Navbar,
 } from "./components";
 
+  import useAuth from './hooks/useAuth'
+
 function App() {
-  const [token, setToken] = useState("");
-  const [user, setUser] = useState({});
-
-  useEffect(() => {
-    const localStorageToken = localStorage.getItem("token");
-    if (localStorageToken) {
-      setToken(localStorageToken);
-    }
-  }, [token]);
-
-  useEffect(() => {
-    const getMyUserFunction = async () => {
-      if (token) {
-        const result = await getMe(token);
-        setUser({
-          id: result.id,
-          username: result.username,
-        });
-      }
-    };
-    getMyUserFunction();
-  }, [token]);
+  const { token, user } = useAuth()
 
   return (
-    <>
-      <Navbar token={token} user={user} />
-      <Switch>
-        <Route exact path="/">
-          <Home />
-        </Route>
-        <Route exact path="/routines">
-          <Routines />
-        </Route>
-        <Route exact path="/activities">
-          <Activities token={token} user={user}/>
-        </Route>
-        <Route exact path="/myroutines">
-          <MyRoutines token={token} user={user} />
-        </Route>
-        <Route exact path="/logout">
-          <Logout setToken={setToken} setUser={setUser} />
-        </Route>
-        <Route exact path="/login">
-          <Login setToken={setToken} />
-        </Route>
-        <Route exact path="/signup">
-          <Register setToken={setToken} token={token} />
-        </Route>
-      </Switch>
-    </>
+    <div>
+      <header>
+        <h3>Welcome to Fitness Tracker, {user.username}</h3>
+        <Link to="/">Home</Link>
+        <Link to="/routines">Routines</Link>
+        <Link to="/activities">Activities</Link>
+        {token ? (
+          <>
+        <Link to="/myroutines">MyRoutines</Link>
+        <Link to="/logout">Logout</Link>
+        </>
+        ) : (
+          <>
+        <Link to="/login">Login</Link>
+        <Link to="/signup">Signup</Link>
+        </>
+        )}
+      </header>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/routines" element={<Routines />} />
+        <Route path="/activities" element={<Activities />} />
+        <Route path="/myroutines" element={<MyRoutines />} />
+        <Route path="/logout" element={<Logout />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<Register />} />
+      </Routes>
+    </div>
   );
 }
 

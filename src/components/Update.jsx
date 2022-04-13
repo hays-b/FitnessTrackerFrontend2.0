@@ -1,28 +1,21 @@
-import React, { useState, useEffect } from "react";
-import { updateRoutine, getAllActivities, addActivityToRoutine } from "../api";
+import React, { useState } from "react";
+import { updateRoutine, addActivityToRoutine } from "../api";
+import useAuth from "../hooks/useAuth";
 
-const Update = ({ token, routine, myRoutines, setMyRoutines }) => {
+const Update = ({ routine }) => {
+  const { token, myRoutines, setMyRoutines, activities } = useAuth();
+
   const [updateState, setUpdateState] = useState({
     name: routine.name,
     goal: routine.goal,
     isPublic: false,
   });
   const [activityToAdd, setActivityToAdd] = useState({
-      name: "Any",
-      count: "",
-      duration: "",
-    });
+    name: "Any",
+    count: "",
+    duration: "",
+  });
   const [updateError, setUpdateError] = useState("");
-
-  const [activities, setActivities] = useState([]);
-
-  useEffect(() => {
-    const displayActivities = async () => {
-      const data = await getAllActivities();
-      setActivities(data);
-    };
-    displayActivities();
-  }, []);
 
   return (
     <>
@@ -37,9 +30,15 @@ const Update = ({ token, routine, myRoutines, setMyRoutines }) => {
             updateState.isPublic
           );
           if (activityToAdd.id) {
-          const activityResult = await addActivityToRoutine(routine.id, activityToAdd.id, activityToAdd.count, activityToAdd.duration, token)
-          console.log(activityResult)
-          } 
+            const activityResult = await addActivityToRoutine(
+              routine.id,
+              activityToAdd.id,
+              activityToAdd.count,
+              activityToAdd.duration,
+              token
+            );
+            console.log(activityResult);
+          }
 
           if (result.error) {
             console.log("error", result);
@@ -96,7 +95,9 @@ const Update = ({ token, routine, myRoutines, setMyRoutines }) => {
             name="activity"
             id="select-activity"
             value={activityToAdd.id}
-            onChange={(e) => setActivityToAdd({ ...activityToAdd, id: e.target.value})}
+            onChange={(e) =>
+              setActivityToAdd({ ...activityToAdd, id: e.target.value })
+            }
             /* this should update the value of the activities */
           >
             <option value="any">Any</option>
@@ -110,21 +111,24 @@ const Update = ({ token, routine, myRoutines, setMyRoutines }) => {
             {/* map over the activities, return an <option /> */}
           </select>
           <input
-          type="text"
-          placeholder="count"
-          value={activityToAdd.count}
-          onChange={(event) =>
-            setActivityToAdd({ ...activityToAdd, count: event.target.value })
-          }
-        />
-        <input
-          type="text"
-          placeholder="duration"
-          value={activityToAdd.duration}
-          onChange={(event) =>
-            setActivityToAdd({ ...activityToAdd, duration: event.target.value })
-          }
-        />
+            type="text"
+            placeholder="count"
+            value={activityToAdd.count}
+            onChange={(event) =>
+              setActivityToAdd({ ...activityToAdd, count: event.target.value })
+            }
+          />
+          <input
+            type="text"
+            placeholder="duration"
+            value={activityToAdd.duration}
+            onChange={(event) =>
+              setActivityToAdd({
+                ...activityToAdd,
+                duration: event.target.value,
+              })
+            }
+          />
         </div>
         <button type="submit">Update</button>
       </form>

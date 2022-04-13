@@ -1,16 +1,8 @@
-import React, { useState, useEffect } from "react";
-import { getPublicRoutines } from "../api";
+import React from "react";
+import useAuth from '../hooks/useAuth'
 
 const Routines = () => {
-  const [routines, setRoutines] = useState([]);
-
-  useEffect(() => {
-    const displayRoutines = async () => {
-      const data = await getPublicRoutines();
-      setRoutines(data);
-    };
-    displayRoutines();
-  }, []);
+  const { routines } = useAuth()
 
   return (
     <div id="routineList">

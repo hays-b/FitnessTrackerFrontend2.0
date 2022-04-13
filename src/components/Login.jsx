@@ -1,13 +1,16 @@
 import React, { useState } from "react";
 import { loginUser } from "../api";
-import { useHistory } from "react-router-dom";
+// import { useHistory } from "react-router-dom";
+import useAuth from "../hooks/useAuth";
 
-const Login = ({ setToken }) => {
+const Login = () => {
+  const { setToken } = useAuth();
+
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [customError, setCustomError] = useState("");
 
-  const history = useHistory();
+  // const history = useHistory();
 
   return (
     <div>
@@ -23,7 +26,7 @@ const Login = ({ setToken }) => {
             localStorage.setItem("token", result.token);
             setToken(result.token);
 
-            history.push("/myroutines");
+            // history.push("/myroutines");
           }
         }}
       >

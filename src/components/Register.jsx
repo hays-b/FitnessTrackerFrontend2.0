@@ -1,14 +1,18 @@
 import React from "react";
 import { useState } from "react";
 import { registerUser } from "../api";
-import { useHistory } from "react-router-dom";
+// import { useHistory } from "react-router-dom";
+import useAuth from "../hooks/useAuth";
 
-const Register = ({ setToken, token }) => {
+
+const Register = () => {
+  const { setToken } = useAuth();
+
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [customError, setCustomError] = useState("");
 
-  const history = useHistory();
+  // const history = useHistory();
 
   return (
     <div>
@@ -25,7 +29,7 @@ const Register = ({ setToken, token }) => {
           localStorage.setItem("token", result.token);
           setToken(result.token);
 
-          history.push("/myroutines");
+          // history.push("/myroutines");
           }
         }}
       >

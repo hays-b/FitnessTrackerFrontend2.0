@@ -1,4 +1,3 @@
-export { default as Navbar } from "./Navbar";
 export { default as Activities } from "./Activities";
 export { default as Home } from "./Home";
 export { default as Login } from "./Login";
