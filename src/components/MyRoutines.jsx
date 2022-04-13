@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { createRoutine, getMyRoutines, deleteRoutine } from "../api";
+import Update from "./Update";
 
 const MyRoutines = ({ token, user }) => {
   const [myRoutines, setMyRoutines] = useState([]);
@@ -84,7 +85,7 @@ const MyRoutines = ({ token, user }) => {
             setFormState({ ...formState, isPublic: !formState.isPublic })
           }
         />
-        <label htmlFor="isPublic">Is this a public post?</label>
+        <label htmlFor="isPublic">Is this a public routine?</label>
         <button type="submit">Post</button>
       </form>
       {/* if there are myRoutines to map through, display them */}
@@ -94,6 +95,7 @@ const MyRoutines = ({ token, user }) => {
           {myRoutines.map((routine, idx) => (
             <div key={"myRoutines" + routine.id}>
               <h1>Routine: {routine.name}</h1>
+              <h4>{routine.isPublic ? "Public": "Private"}</h4>
               <h2>Goal: {routine.goal}</h2>
               <h3>Activities:</h3>
               {/* if the routine has activities, map and display them too */}
@@ -111,6 +113,12 @@ const MyRoutines = ({ token, user }) => {
                       </div>
                     ))}
                   </div>
+                  <Update
+                  token={token}
+                  routine={routine}
+                  myRoutines={myRoutines}
+                  setMyRoutines={setMyRoutines}
+                />
                   <button onClick={() => deleteClick(routine.id, token)}>
                     Delete
                   </button>
@@ -131,5 +139,3 @@ export default MyRoutines;
 // be able to add an activity to a routine via a small form which has a dropdown for all activities, an inputs for count and duration
 // be able to update the duration or count of any activity on the routine
 // be able to remove any activity from the routine
-
-//   /* <button>Update Routine</button>
