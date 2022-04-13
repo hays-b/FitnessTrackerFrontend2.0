@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { getAllRoutines } from "../api";
+import { getPublicRoutines } from "../api";
 
 const Routines = () => {
   const [routines, setRoutines] = useState([]);
 
   useEffect(() => {
     const displayRoutines = async () => {
-      const data = await getAllRoutines();
+      const data = await getPublicRoutines();
       setRoutines(data);
     };
     displayRoutines();
@@ -22,14 +22,16 @@ const Routines = () => {
           <h3>Activities:</h3>
           <div id="activityList">
             {routine.activities.map((activity, idx) => (
-                <div key={activity.id}>
-                    <h4>Step {idx + 1}: {activity.name} </h4>
-                    <p>Description: {activity.description}</p>
-                    <p>Count: {activity.count}</p>
-                    <p>Duration: {activity.duration}</p>
-                </div>
+              <div key={activity.id}>
+                <h4>
+                  Step {idx + 1}: {activity.name}{" "}
+                </h4>
+                <p>Description: {activity.description}</p>
+                <p>Count: {activity.count}</p>
+                <p>Duration: {activity.duration}</p>
+              </div>
             ))}
-           </div> 
+          </div>
         </div>
       ))}
     </div>

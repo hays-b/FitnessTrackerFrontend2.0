@@ -31,7 +31,7 @@ export const loginUser = async (username, password) => {
 };
 
 export const getMe = async (token) => {
-  const response = await fetch(`{${baseURL}}/users/me`, {
+  const response = await fetch(`${baseURL}/users/me`, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
@@ -65,7 +65,7 @@ export const getAllActivities = async () => {
   return data;
 };
 
-export const createActivity = async (name, description) => {
+export const createActivity = async (token, name, description) => {
   const response = await fetch(`${baseURL}/activities`, {
     method: "POST",
     headers: {
@@ -81,7 +81,7 @@ export const createActivity = async (name, description) => {
   return data;
 };
 
-export const updateActivity = async (activityId, name, description) => {
+export const updateActivity = async (token, activityId, name, description) => {
   const response = await fetch(`${baseURL}/activities/${activityId}`, {
     method: "PATCH",
     headers: {
@@ -108,7 +108,7 @@ export const getPublicRoutinesByActivity = async (activityId) => {
   return data;
 };
 
-export const getAllRoutines = async () => {
+export const getPublicRoutines = async () => {
   const response = await fetch(`${baseURL}/routines`, {
     method: "GET",
     headers: {
@@ -187,7 +187,12 @@ export const addActivityToRoutine = async (
   return data;
 };
 
-export const updateRoutineActivity = async (rouActId, token, name, goal) => {
+export const updateRoutineActivity = async (
+  rouActId,
+  token,
+  count,
+  duration
+) => {
   const response = await fetch(`${baseURL}/routine_activities/${rouActId}`, {
     method: "PATCH",
     headers: {
