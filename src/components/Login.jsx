@@ -5,6 +5,7 @@ import { useHistory } from "react-router-dom";
 const Login = ({ setToken }) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [customError, setCustomError] = useState("");
 
   const history = useHistory();
 
@@ -15,13 +16,18 @@ const Login = ({ setToken }) => {
           event.preventDefault();
 
           const result = await loginUser(username, password);
+          if (result.error) {
+            console.log("error", result);
+            setCustomError(result.error);
+          } else {
+            localStorage.setItem("token", result.token);
+            setToken(result.token);
 
-          localStorage.setItem("token", result.token);
-          setToken(result.token);
-
-          history.push("/");
+            history.push("/");
+          }
         }}
       >
+        {customError ? <h3>Unable to create account: {customError}</h3> : null}
         <input
           value={username}
           type="text"

@@ -1,6 +1,5 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { createRoutine, getMyRoutines } from "../api";
-import { useState, useEffect } from "react";
 
 const MyRoutines = ({ token, user }) => {
   const [myRoutines, setMyRoutines] = useState([]);
@@ -9,6 +8,7 @@ const MyRoutines = ({ token, user }) => {
     goal: "",
     isPublic: false,
   });
+  const [customError, setCustomError] = useState("");
 
   useEffect(() => {
     // check for a username before making an ajax call (avoids unnecessary call)
@@ -32,10 +32,17 @@ const MyRoutines = ({ token, user }) => {
             formState.goal,
             formState.isPublic
           );
+          if (result.error) {
+            console.log("error", result);
+            setCustomError(result.error);
+          } else {
+            setCustomError("");
           setMyRoutines([...myRoutines, result]);
           console.log("I have no idea what this returns: ", result);
+          }
         }}
       >
+        {customError ? <h3>Unable to post: {customError}</h3> : null}
         <input
           type="text"
           placeholder="Name"

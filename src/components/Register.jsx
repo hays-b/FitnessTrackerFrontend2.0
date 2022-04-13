@@ -3,10 +3,10 @@ import { useState } from "react";
 import { registerUser } from "../api";
 import { useHistory } from "react-router-dom";
 
-
-const Register = ({setToken, token}) => {
+const Register = ({ setToken, token }) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [customError, setCustomError] = useState("");
 
   const history = useHistory();
 
@@ -17,14 +17,19 @@ const Register = ({setToken, token}) => {
           e.preventDefault();
 
           const result = await registerUser(username, password);
-          console.log(result.token)
-
+          console.log(result.token);
+          if (result.error) {
+            console.log("error", result);
+            setCustomError(result.error);
+          } else {
           localStorage.setItem("token", result.token);
-          setToken(result.token)
+          setToken(result.token);
 
-          history.push("/")
+          history.push("/");
+          }
         }}
       >
+        {customError ? <h3>Unable to create account: {customError}</h3> : null}
         <input
           value={username}
           type="text"
@@ -33,7 +38,7 @@ const Register = ({setToken, token}) => {
             setUsername(e.target.value);
           }}
           required
-        //   minlength = "8"
+          //   minlength = "8"
         />
         <input
           value={password}
@@ -43,7 +48,7 @@ const Register = ({setToken, token}) => {
             setPassword(e.target.value);
           }}
           required
-        //   minlength = "8"
+          //   minlength = "8"
         />
         <button type="submit">Sign Up</button>
       </form>

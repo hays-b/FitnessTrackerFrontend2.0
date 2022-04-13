@@ -47,7 +47,7 @@ function App() {
           <Routines />
         </Route>
         <Route exact path="/activities">
-          <Activities />
+          <Activities token={token} user={user}/>
         </Route>
         <Route exact path="/myRoutines">
           <MyRoutines token={token} user={user} />
@@ -58,7 +58,7 @@ function App() {
         <Route exact path="/Login">
           <Login setToken={setToken} />
         </Route>
-        <Route exact path="/Register">
+        <Route exact path="/signup">
           <Register setToken={setToken} token={token} />
         </Route>
       </Switch>
