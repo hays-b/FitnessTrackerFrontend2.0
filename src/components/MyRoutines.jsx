@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { createRoutine, getMyRoutines } from "../api";
+import { createRoutine, getMyRoutines, deleteRoutine } from "../api";
 
 const MyRoutines = ({ token, user }) => {
   const [myRoutines, setMyRoutines] = useState([]);
@@ -8,7 +8,7 @@ const MyRoutines = ({ token, user }) => {
     goal: "",
     isPublic: false,
   });
-  const [customError, setCustomError] = useState("");
+  const [createError, setCreateError] = useState("");
 
   useEffect(() => {
     // check for a username before making an ajax call (avoids unnecessary call)
@@ -20,6 +20,20 @@ const MyRoutines = ({ token, user }) => {
       displayMyRoutines();
     }
   }, [user, token]);
+
+  const deleteClick = async (deleteId, token) => {
+    await deleteRoutine(deleteId, token);
+
+      const newRoutines = [];
+
+      myRoutines.forEach((routine) => {
+        if (routine.id !== deleteId) {
+          newRoutines.push(routine);
+        }
+      });
+
+      setMyRoutines(newRoutines);
+  };
 
   return (
     <>
@@ -35,15 +49,15 @@ const MyRoutines = ({ token, user }) => {
           );
           if (result.error) {
             console.log("error", result);
-            setCustomError(result.error);
+            setCreateError(result.error);
           } else {
-            setCustomError("");
+            setCreateError("");
             setMyRoutines([...myRoutines, result]);
             console.log("I have no idea what this returns: ", result);
           }
         }}
       >
-        {customError ? <h3>Unable to post: {customError}</h3> : null}
+        {createError ? <h3>Unable to post: {createError}</h3> : null}
         <input
           type="text"
           placeholder="Name"
@@ -84,18 +98,23 @@ const MyRoutines = ({ token, user }) => {
               <h3>Activities:</h3>
               {/* if the routine has activities, map and display them too */}
               {routine.activities ? (
-                <div id="activityList">
-                  {routine.activities.map((activity, idx) => (
-                    <div key={activity.id}>
-                      <h4>
-                        Step {idx + 1}: {activity.name}{" "}
-                      </h4>
-                      <p>Description: {activity.description}</p>
-                      <p>Count: {activity.count}</p>
-                      <p>Duration: {activity.duration}</p>
-                    </div>
-                  ))}
-                </div>
+                <>
+                  <div id="activityList">
+                    {routine.activities.map((activity, idx) => (
+                      <div key={activity.id}>
+                        <h4>
+                          Step {idx + 1}: {activity.name}{" "}
+                        </h4>
+                        <p>Description: {activity.description}</p>
+                        <p>Count: {activity.count}</p>
+                        <p>Duration: {activity.duration}</p>
+                      </div>
+                    ))}
+                  </div>
+                  <button onClick={() => deleteClick(routine.id, token)}>
+                    Delete
+                  </button>
+                </>
               ) : null}
             </div>
           ))}
@@ -107,15 +126,10 @@ const MyRoutines = ({ token, user }) => {
 
 export default MyRoutines;
 
-
 // for each routine which is owned by me I should
 // be able to update the name and goal for the routine
-// be able to delete the entire routine
 // be able to add an activity to a routine via a small form which has a dropdown for all activities, an inputs for count and duration
 // be able to update the duration or count of any activity on the routine
 // be able to remove any activity from the routine
 
-// {
 //   /* <button>Update Routine</button>
-// <button>Delete Routine</button> */
-// }
