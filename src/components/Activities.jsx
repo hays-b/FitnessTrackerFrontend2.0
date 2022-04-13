@@ -20,6 +20,8 @@ const Activities = ({ token, user }) => {
   return (
     <>
       {token ? (
+        <>
+        <h3>Create your own activity here!</h3>
         <form
           onSubmit={async (event) => {
             event.preventDefault();
@@ -59,7 +61,10 @@ const Activities = ({ token, user }) => {
           />
           <button type="submit">Post</button>
         </form>
-      ) : null}
+        </>
+      ) : (
+        <h3>Sign up to create your own activities!</h3>
+      )}
       <div id="activityList">
         <h1>All Activities</h1>
         {activities.map((activity, idx) => (
@@ -76,10 +81,3 @@ const Activities = ({ token, user }) => {
 };
 
 export default Activities;
-
-// As an unregistered visitor on the Activities tab, I want to:
-// see a list of all activities which have been created
-
-// As a registered user on the Activities tab, I want to:
-// be shown a form to create a new activity (by name and description)
-// be shown an error if the activity already exists

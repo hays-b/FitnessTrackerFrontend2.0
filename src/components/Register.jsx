@@ -25,7 +25,7 @@ const Register = ({ setToken, token }) => {
           localStorage.setItem("token", result.token);
           setToken(result.token);
 
-          history.push("/");
+          history.push("/myroutines");
           }
         }}
       >
@@ -38,7 +38,6 @@ const Register = ({ setToken, token }) => {
             setUsername(e.target.value);
           }}
           required
-          //   minlength = "8"
         />
         <input
           value={password}
@@ -48,7 +47,8 @@ const Register = ({ setToken, token }) => {
             setPassword(e.target.value);
           }}
           required
-          //   minlength = "8"
+          pattern=".{8,}"
+          title="8 characters minimum"
         />
         <button type="submit">Sign Up</button>
       </form>

@@ -11,15 +11,15 @@ const Navbar = ({ token, user }) => {
       <Link to={"/"} className="nav_item">
         Home
       </Link>
-      <Link to={"/Routines"} className="nav_item">
+      <Link to={"/routines"} className="nav_item">
         Routines
       </Link>
-      <Link to={"/Activities"} className="nav_item">
+      <Link to={"/activities"} className="nav_item">
         Activities
       </Link>
       {token ? (
         <>
-          <Link to={"/myRoutines"} className="nav_item">
+          <Link to={"/myroutines"} className="nav_item">
             My Routines
           </Link>
           <Link to={"/logout"} className="nav_item">

@@ -23,6 +23,7 @@ const MyRoutines = ({ token, user }) => {
 
   return (
     <>
+      <h3>Create your own routine here!</h3>
       <form
         onSubmit={async (event) => {
           event.preventDefault();
@@ -37,8 +38,8 @@ const MyRoutines = ({ token, user }) => {
             setCustomError(result.error);
           } else {
             setCustomError("");
-          setMyRoutines([...myRoutines, result]);
-          console.log("I have no idea what this returns: ", result);
+            setMyRoutines([...myRoutines, result]);
+            console.log("I have no idea what this returns: ", result);
           }
         }}
       >
@@ -106,8 +107,6 @@ const MyRoutines = ({ token, user }) => {
 
 export default MyRoutines;
 
-// be shown a form to create a new routine
-// the form should have text fields for name and goal
 
 // for each routine which is owned by me I should
 // be able to update the name and goal for the routine

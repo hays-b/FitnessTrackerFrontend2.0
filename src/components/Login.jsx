@@ -23,7 +23,7 @@ const Login = ({ setToken }) => {
             localStorage.setItem("token", result.token);
             setToken(result.token);
 
-            history.push("/");
+            history.push("/myroutines");
           }
         }}
       >
@@ -45,6 +45,8 @@ const Login = ({ setToken }) => {
             setPassword(event.target.value);
           }}
           required
+          pattern=".{8,}"
+          title="8 characters minimum"
         />
         <button type="submit">Log In</button>
       </form>

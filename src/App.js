@@ -49,13 +49,13 @@ function App() {
         <Route exact path="/activities">
           <Activities token={token} user={user}/>
         </Route>
-        <Route exact path="/myRoutines">
+        <Route exact path="/myroutines">
           <MyRoutines token={token} user={user} />
         </Route>
-        <Route exact path="/Logout">
+        <Route exact path="/logout">
           <Logout setToken={setToken} setUser={setUser} />
         </Route>
-        <Route exact path="/Login">
+        <Route exact path="/login">
           <Login setToken={setToken} />
         </Route>
         <Route exact path="/signup">
