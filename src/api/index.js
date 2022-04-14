@@ -66,7 +66,7 @@ export const getAllActivities = async () => {
 };
 
 export const createActivity = async (token, name, description) => {
-    const response = await fetch(`${baseURL}/activities`, {
+  const response = await fetch(`${baseURL}/activities`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",

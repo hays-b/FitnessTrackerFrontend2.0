@@ -89,6 +89,7 @@ const MyRoutines = () => {
             const newRoutines = await getPublicRoutines();
             setMyRoutines(newMyRoutines);
             setRoutines(newRoutines);
+            setFormState({ name: "", goal: "", isPublic: false });
           }
         }}
       >
@@ -111,15 +112,17 @@ const MyRoutines = () => {
           }
           required
         />
-        <input
-          type="checkbox"
-          id="isPublic"
+        <select
+          name="isPublic"
+          id="select-public"
           value={formState.isPublic}
-          onChange={() =>
-            setFormState({ ...formState, isPublic: !formState.isPublic })
+          onChange={(e) =>
+            setFormState({ ...formState, isPublic: e.target.value })
           }
-        />
-        <label htmlFor="isPublic">Is this a public routine?</label>
+        >
+          <option value="false">Private</option>
+          <option value="true">Public</option>
+        </select>
         <button type="submit">Create Routine</button>
       </form>
       {/* if there are myRoutines to map through, display them */}

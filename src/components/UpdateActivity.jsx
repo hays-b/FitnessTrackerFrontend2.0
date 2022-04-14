@@ -11,11 +11,12 @@ import useAuth from "../hooks/useAuth";
 const UpdateActivity = ({ activity }) => {
   const { user, token, setActivities, setMyRoutines, setRoutines } = useAuth();
 
+  console.log(activity);
   const [updateState, setUpdateState] = useState({
     name: activity.name,
     description: activity.description,
-    count: "",
-    duration: "",
+    count: activity.count,
+    duration: activity.duration,
   });
 
   const handleUpdateActivity = async () => {
