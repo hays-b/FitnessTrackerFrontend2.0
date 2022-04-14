@@ -113,7 +113,7 @@ const UpdateRoutine = ({ routine }) => {
             {/* map over the activities, return an <option /> */}
           </select>
           <input
-            type="text"
+            type="number"
             placeholder="count"
             value={activityToAdd.count}
             onChange={(event) =>
@@ -121,7 +121,7 @@ const UpdateRoutine = ({ routine }) => {
             }
           />
           <input
-            type="text"
+            type="number"
             placeholder="duration"
             value={activityToAdd.duration}
             onChange={(event) =>
@@ -130,6 +130,7 @@ const UpdateRoutine = ({ routine }) => {
                 duration: event.target.value,
               })
             }
+            required
           />
         </div>
         <button type="submit">Update Routine</button>

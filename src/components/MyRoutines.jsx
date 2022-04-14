@@ -1,19 +1,26 @@
 import React, { useState } from "react";
-import { createRoutine, deleteRoutine, deleteRoutineActivity } from "../api";
+import {
+  createRoutine,
+  deleteRoutine,
+  deleteRoutineActivity,
+  getMyRoutines,
+  getPublicRoutines,
+} from "../api";
 import UpdateRoutine from "./UpdateRoutine";
 import UpdateActivity from "./UpdateActivity";
 import useAuth from "../hooks/useAuth";
 
 const MyRoutines = () => {
-  const { token, myRoutines, setMyRoutines, routines, setRoutines } = useAuth();
-  
+  const { token, myRoutines, setMyRoutines, routines, setRoutines, user } =
+    useAuth();
+
   const [formState, setFormState] = useState({
     name: "",
     goal: "",
     isPublic: false,
   });
   const [createError, setCreateError] = useState("");
-  
+
   // After deleting the routine, this function filters it out of the useStates
   const handleRoutineDelete = async (routineToDelete) => {
     await deleteRoutine(routineToDelete.id, token);
@@ -32,24 +39,31 @@ const MyRoutines = () => {
   const handleActivityRemoval = async (selectedRoutine, activityToDelete) => {
     await deleteRoutineActivity(activityToDelete.routineActivityId, token);
 
-    setMyRoutines(
-      myRoutines.filter((routine) => routine.id !== selectedRoutine.id)
-    );
-    if (selectedRoutine.isPublic) {
-    setRoutines(
-      routines.filter((routine) => routine.id !== selectedRoutine.id)
-    );
-  }
+    const newMyRoutines = await getMyRoutines(user.username, token);
+    const newRoutines = await getPublicRoutines();
+    setMyRoutines(newMyRoutines);
+    setRoutines(newRoutines);
 
-    selectedRoutine.activities.filter(
-      (activity) =>
-        activity.routineActivityId !== activityToDelete.routineActivityId
-    );
+    // console.log("before i filter myroutines: ", myRoutines);
+    // setMyRoutines(
+    //   myRoutines.filter((routine) => routine.id !== selectedRoutine.id)
+    // );
+    // console.log("after i filter myroutines: ", myRoutines);
+    // if (selectedRoutine.isPublic) {
+    //   setRoutines(
+    //     routines.filter((routine) => routine.id !== selectedRoutine.id)
+    //   );
+    // }
 
-    setMyRoutines([ ...myRoutines, selectedRoutine ]);
-    if (selectedRoutine.isPublic) {
-      setRoutines([ ...routines, selectedRoutine ]);
-    }
+    // selectedRoutine.activities.filter(
+    //   (activity) =>
+    //     activity.routineActivityId !== activityToDelete.routineActivityId
+    // );
+
+    // setMyRoutines([...myRoutines, selectedRoutine]);
+    // if (selectedRoutine.isPublic) {
+    //   setRoutines([...routines, selectedRoutine]);
+    // }
   };
 
   return (
@@ -69,8 +83,12 @@ const MyRoutines = () => {
             setCreateError(result.error);
           } else {
             setCreateError("");
-            setMyRoutines([...myRoutines, result]);
-            console.log("I have no idea what this returns: ", result);
+            // setMyRoutines([...myRoutines, result]);
+
+            const newMyRoutines = await getMyRoutines(user.username, token);
+            const newRoutines = await getPublicRoutines();
+            setMyRoutines(newMyRoutines);
+            setRoutines(newRoutines);
           }
         }}
       >
