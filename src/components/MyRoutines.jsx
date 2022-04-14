@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { createRoutine, deleteRoutine, deleteRoutineActivity } from "../api";
-import Update from "./Update";
+import UpdateRoutine from "./UpdateRoutine";
+import UpdateActivity from "./UpdateActivity";
 import useAuth from "../hooks/useAuth";
 
 const MyRoutines = () => {
@@ -73,7 +74,7 @@ const MyRoutines = () => {
           }
         }}
       >
-        {createError ? <h3>Unable to post: {createError}</h3> : null}
+        {createError ? <h3>Unable to create routine: {createError}</h3> : null}
         <input
           type="text"
           placeholder="Name"
@@ -101,7 +102,7 @@ const MyRoutines = () => {
           }
         />
         <label htmlFor="isPublic">Is this a public routine?</label>
-        <button type="submit">Post</button>
+        <button type="submit">Create Routine</button>
       </form>
       {/* if there are myRoutines to map through, display them */}
       {myRoutines.length ? (
@@ -120,11 +121,12 @@ const MyRoutines = () => {
                     {routine.activities.map((activity, idx) => (
                       <div key={activity.id}>
                         <h4>
-                          Step {idx + 1}: {activity.name}{" "}
+                          Activity {idx + 1}: {activity.name}{" "}
                         </h4>
                         <p>Description: {activity.description}</p>
                         <p>Count: {activity.count}</p>
                         <p>Duration: {activity.duration}</p>
+                        <UpdateActivity routine={routine} activity={activity} />
                         <button
                           onClick={() =>
                             handleActivityRemoval(routine, activity)
@@ -135,7 +137,7 @@ const MyRoutines = () => {
                       </div>
                     ))}
                   </div>
-                  <Update routine={routine} />
+                  <UpdateRoutine routine={routine} />
                   <button onClick={() => handleRoutineDelete(routine)}>
                     Delete Routine
                   </button>
@@ -152,6 +154,5 @@ const MyRoutines = () => {
 export default MyRoutines;
 
 // for each routine which is owned by me I should
-// be able to update the name and goal for the routine
 // be able to add an activity to a routine via a small form which has a dropdown for all activities, an inputs for count and duration
 // be able to update the duration or count of any activity on the routine

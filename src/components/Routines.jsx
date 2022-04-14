@@ -17,7 +17,7 @@ const Routines = () => {
             {routine.activities.map((activity, idx) => (
               <div key={activity.id}>
                 <h4>
-                  Step {idx + 1}: {activity.name}{" "}
+                  Activity {idx + 1}: {activity.name}{" "}
                 </h4>
                 <p>Description: {activity.description}</p>
                 <p>Count: {activity.count}</p>

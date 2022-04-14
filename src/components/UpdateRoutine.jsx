@@ -1,63 +1,65 @@
 import React, { useState } from "react";
-import { updateRoutine, addActivityToRoutine } from "../api";
+import {
+  updateRoutine,
+  addActivityToRoutine,
+  getPublicRoutines,
+  getMyRoutines,
+} from "../api";
 import useAuth from "../hooks/useAuth";
 
-const Update = ({ routine }) => {
-  const { token, myRoutines, setMyRoutines, activities } = useAuth();
+const UpdateRoutine = ({ routine }) => {
+  const { token, user, setMyRoutines, activities, setRoutines } = useAuth();
 
   const [updateState, setUpdateState] = useState({
     name: routine.name,
     goal: routine.goal,
-    isPublic: false,
+    isPublic: routine.isPublic,
   });
   const [activityToAdd, setActivityToAdd] = useState({
+    id: "",
     name: "Any",
     count: "",
     duration: "",
   });
   const [updateError, setUpdateError] = useState("");
 
+  const handleUpdateRoutine = async () => {
+    const result = await updateRoutine(
+      routine.id,
+      token,
+      updateState.name,
+      updateState.goal,
+      updateState.isPublic
+    );
+    if (activityToAdd.id) {
+      const activityResult = await addActivityToRoutine(
+        routine.id,
+        activityToAdd.id,
+        activityToAdd.count,
+        activityToAdd.duration,
+        token
+      );
+      console.log(activityResult);
+    }
+    if (result.error) {
+      console.log("error", result);
+      setUpdateError(result.error);
+    } else {
+      setUpdateError("");
+
+      const newMyRoutines = await getMyRoutines(user.username, token);
+      const newRoutines = await getPublicRoutines();
+      setMyRoutines(newMyRoutines);
+      setRoutines(newRoutines);
+    }
+  };
+
   return (
     <>
       <form
         onSubmit={async (event) => {
           event.preventDefault();
-          const result = await updateRoutine(
-            routine.id,
-            token,
-            updateState.name,
-            updateState.goal,
-            updateState.isPublic
-          );
-          if (activityToAdd.id) {
-            const activityResult = await addActivityToRoutine(
-              routine.id,
-              activityToAdd.id,
-              activityToAdd.count,
-              activityToAdd.duration,
-              token
-            );
-            console.log(activityResult);
-          }
-
-          if (result.error) {
-            console.log("error", result);
-            setUpdateError(result.error);
-          } else {
-            setUpdateError("");
-
-            const newRoutines = [];
-
-            myRoutines.forEach((listedRoutine) => {
-              if (listedRoutine.id !== routine.id) {
-                newRoutines.push(listedRoutine);
-              } else {
-                newRoutines.push(result);
-              }
-            });
-            setMyRoutines(newRoutines);
-            console.log("I have no idea what this returns: ", result);
-          }
+          handleUpdateRoutine();
         }}
       >
         {updateError ? <h3>Unable to update: {updateError}</h3> : null}
@@ -77,20 +79,20 @@ const Update = ({ routine }) => {
             setUpdateState({ ...updateState, goal: event.target.value })
           }
         />
-        <input
-          type="checkbox"
-          id="isPublic"
+        {/* sets isPublic to either true or false */}
+        <select
+          name="isPublic"
+          id="select-public"
           value={updateState.isPublic}
-          onChange={() =>
-            setUpdateState({ ...updateState, isPublic: !updateState.isPublic })
+          onChange={(e) =>
+            setUpdateState({ ...updateState, isPublic: e.target.value })
           }
-        />
-        <label htmlFor="isPublic">Make this routine public?</label>
+        >
+          <option value="true">Public</option>
+          <option value="false">Private</option>
+        </select>
         <div>
-          <label htmlFor="select-activity">
-            Select activity to add{" "}
-            {/* <span className="activity-count">({activities.length})</span> */}
-          </label>
+          <label htmlFor="select-activity">Select activity to add</label>
           <select
             name="activity"
             id="select-activity"
@@ -130,10 +132,10 @@ const Update = ({ routine }) => {
             }
           />
         </div>
-        <button type="submit">Update</button>
+        <button type="submit">Update Routine</button>
       </form>
     </>
   );
 };
 
-export default Update;
+export default UpdateRoutine;
