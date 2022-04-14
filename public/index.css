@@ -1,0 +1,30 @@
+* {
+  background-color: rgb(158, 152, 160);
+}
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+a {
+  font-size: 14pt;
+  margin-left: 1rem;
+}
+
+img {
+  display: flex;
+  flex-grow: 1000;
+  margin-top: 15vh;
+  border: 5rem;
+}
+
+input {
+  background-color: rgb(49, 49, 49);
+  color: aliceblue;
+}
+
+button,
+select,
+option {
+  background-color: white;
+}

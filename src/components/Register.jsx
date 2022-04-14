@@ -1,12 +1,12 @@
 import React from "react";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { registerUser } from "../api";
-// import { useHistory } from "react-router-dom";
 import useAuth from "../hooks/useAuth";
-
 
 const Register = () => {
   const { setToken } = useAuth();
+  const navigate = useNavigate();
 
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -26,10 +26,10 @@ const Register = () => {
             console.log("error", result);
             setCustomError(result.error);
           } else {
-          localStorage.setItem("token", result.token);
-          setToken(result.token);
+            localStorage.setItem("token", result.token);
+            setToken(result.token);
 
-          // history.push("/myroutines");
+            navigate("/myroutines");
           }
         }}
       >
@@ -45,7 +45,7 @@ const Register = () => {
         />
         <input
           value={password}
-          type="text"
+          type="password"
           placeholder="password"
           onChange={(e) => {
             setPassword(e.target.value);

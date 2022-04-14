@@ -1,5 +1,5 @@
 import React from "react";
-import { Routes, Route, Link } from 'react-router-dom'
+import { Routes, Route, Link } from "react-router-dom";
 import {
   Login,
   Home,
@@ -10,10 +10,10 @@ import {
   Activities,
 } from "./components";
 
-  import useAuth from './hooks/useAuth'
+import useAuth from "./hooks/useAuth";
 
 function App() {
-  const { token, user } = useAuth()
+  const { token, user } = useAuth();
 
   return (
     <div>
@@ -24,14 +24,14 @@ function App() {
         <Link to="/activities">Activities</Link>
         {token ? (
           <>
-        <Link to="/myroutines">MyRoutines</Link>
-        <Link to="/logout">Logout</Link>
-        </>
+            <Link to="/myroutines">MyRoutines</Link>
+            <Link to="/logout">Logout</Link>
+          </>
         ) : (
           <>
-        <Link to="/login">Login</Link>
-        <Link to="/signup">Signup</Link>
-        </>
+            <Link to="/login">Login</Link>
+            <Link to="/signup">Signup</Link>
+          </>
         )}
       </header>
       <Routes>

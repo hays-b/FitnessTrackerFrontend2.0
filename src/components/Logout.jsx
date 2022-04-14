@@ -1,9 +1,10 @@
 import React from "react";
-// import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import useAuth from "../hooks/useAuth";
 
 const Logout = () => {
   const { setToken, setUser } = useAuth();
+  const navigate = useNavigate();
 
   const handleLogOut = () => {
     setToken("");
@@ -11,14 +12,12 @@ const Logout = () => {
     setUser({ id: "", username: "" });
   };
 
-  // const history = useHistory();
-
   return (
     <form
       onSubmit={async (e) => {
         e.preventDefault();
         handleLogOut();
-        // history.push("/");
+        navigate("/");
       }}
     >
       <button type="submit">Log Out</button>

@@ -1,16 +1,16 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { loginUser } from "../api";
-// import { useHistory } from "react-router-dom";
+
 import useAuth from "../hooks/useAuth";
 
 const Login = () => {
   const { setToken } = useAuth();
+  const navigate = useNavigate();
 
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [customError, setCustomError] = useState("");
-
-  // const history = useHistory();
 
   return (
     <div>
@@ -26,7 +26,7 @@ const Login = () => {
             localStorage.setItem("token", result.token);
             setToken(result.token);
 
-            // history.push("/myroutines");
+            navigate("/myroutines");
           }
         }}
       >
@@ -42,7 +42,7 @@ const Login = () => {
         />
         <input
           value={password}
-          type="text"
+          type="password"
           placeholder="password"
           onChange={(event) => {
             setPassword(event.target.value);
