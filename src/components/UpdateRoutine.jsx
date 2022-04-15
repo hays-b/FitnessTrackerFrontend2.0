@@ -130,7 +130,6 @@ const UpdateRoutine = ({ routine }) => {
                 duration: event.target.value,
               })
             }
-            required
           />
         </div>
         <button type="submit">Update Routine</button>

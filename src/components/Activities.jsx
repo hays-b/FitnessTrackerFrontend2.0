@@ -30,6 +30,10 @@ const Activities = () => {
               } else {
                 setCustomError("");
                 setActivities([...activities, result]);
+                setFormState({
+                  name: "",
+                  description: "",
+                });
                 console.log("I have no idea what this returns: ", result);
               }
             }}
